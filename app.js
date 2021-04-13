@@ -19,7 +19,10 @@ let attemptCounter = 0;
 let leftIndex;
 let midIndex;
 let rightIndex;
-
+// Chart arrays
+let namesArr = [];
+let votesArr = [];
+let shownArr = [];
 // Constructor function
 
 function Product(name, url) {
@@ -29,6 +32,7 @@ function Product(name, url) {
     this.votes = 0;
     this.shown = 0;
     Product.allProducts.push(this);
+    namesArr.push(this.name);
 }
 Product.allProducts = [];
 
@@ -66,26 +70,28 @@ function random() {
 }
 
 // Rendering function 
-
+let prevImages = [];
+let c = 0;
 function render() {
     //Generating random indexes .
     leftIndex = random();
     midIndex = random();
     rightIndex = random();
+
     // Checking if three images are not equal.
-    while ((leftIndex === midIndex) || (rightIndex === midIndex) || (rightIndex === leftIndex)) {
-        if (leftIndex === midIndex) {
-            midIndex = random();
-        }
-        else if (midIndex === rightIndex) {
-            rightIndex = random();
-        }
-        else {
-            leftIndex = random();
-        }
+    while ((leftIndex === midIndex) || (rightIndex === midIndex) || (rightIndex === leftIndex) || (prevImages.includes(leftIndex)) || (prevImages.includes(rightIndex)) || (prevImages.includes(midIndex))) {
+        leftIndex = random();
+        midIndex = random();
+        rightIndex = random();
     }
+    prevImages = [];
+    prevImages.push(leftIndex);
+    prevImages.push(rightIndex);
+    prevImages.push(midIndex);
 
 
+
+    console.log(prevImages);
     leftImage.src = Product.allProducts[leftIndex].url;
     Product.allProducts[leftIndex].shown++;
     midImage.src = Product.allProducts[midIndex].url;
@@ -136,6 +142,8 @@ function generate(event) {
     }
 }
 
+
+
 // Button handler
 
 document.getElementById('btn').addEventListener('click', listRender);
@@ -154,5 +162,53 @@ function listRender(event) {
         let x = document.createElement('li');
         parent.appendChild(document.createElement('li')).textContent = `${Product.allProducts[i].name} was shown ${Product.allProducts[i].shown} times,and voted ${Product.allProducts[i].votes} times, with ${Product.allProducts[i].percentage}  %.`;
     }
+    for (let i = 0; i < Product.allProducts.length; i++) {
+        votesArr.push(Product.allProducts[i].votes);
+        shownArr.push(Product.allProducts[i].shown);
+    
+    }
+    chart();
     document.getElementById('btn').removeEventListener('click', listRender);
+}
+
+
+
+
+
+// Chart
+function chart() {
+    let ctx = document.getElementById('myChart').getContext('2d');
+
+    let chart = new Chart(ctx, {
+        type: 'bar',
+
+        data: {
+            labels: namesArr,
+
+            datasets: [
+                {
+                    label: 'Products votes',
+                    data: votesArr,
+                    backgroundColor: [
+                        'rgba(18, 110, 130,0.3)',
+                    ],
+
+                    borderWidth: 2
+                },
+
+                {
+                    label: 'Products shown',
+                    data: shownArr,
+                    backgroundColor: [
+                        'rgba(81, 196, 211,0.2)',
+                    ],
+
+                    borderWidth: 2
+                }
+
+            ]
+        },
+        options: {}
+    });
+
 }
