@@ -1,13 +1,18 @@
 'use strict';
 // Hiding the button 
+
+
 document.getElementById('btn').style.visibility = 'hidden';
+
 // getting elements 
+
+
 let leftImage = document.getElementById('left-img');
 let midImage = document.getElementById('mid-img');
 let rightImage = document.getElementById('right-img');
 
 //Counters and attempts
-let maxAttempts = 10;
+let maxAttempts = 25;
 let attemptCounter = 0;
 
 // indexing elements
@@ -113,15 +118,16 @@ function generate(event) {
                 Product.allProducts[leftIndex].votes++;
                 render();
             }
-            else if (event.target.id === 'left-img') {
-                Product.allProducts[leftIndex].votes++;
+            else if (event.target.id === 'mid-img') {
+                Product.allProducts[midIndex].votes++;
                 render();
             }
             else {
-                Product.allProducts[leftIndex].votes++;
+                Product.allProducts[rightIndex].votes++;
                 render();
             }
             attemptCounter++;
+            console.log(attemptCounter);
         }
         else {
             document.getElementById('btn').style = 'visible'
