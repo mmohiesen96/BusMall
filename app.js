@@ -36,12 +36,12 @@ function Product(name, url) {
 }
 Product.allProducts = [];
 
-Product.prototype.percentages = function () {
-    if (this.shown > 0) {
-        this.percentage = (this.votes / this.shown) * 100;
-        this.percentage = Number.parseFloat(this.percentage).toFixed(2);
-    }
-}
+// Product.prototype.percentages = function () {
+//     if (this.shown > 0) {
+//         this.percentage = (this.votes / this.shown) * 100;
+//         this.percentage = Number.parseFloat(this.percentage).toFixed(2);
+//     }
+// }
 // Initializing Products
 new Product('bag', 'img/bag.jpg');
 new Product('banana', 'img/banana.jpg');
@@ -139,6 +139,7 @@ function generate(event) {
             document.getElementById('btn').style = 'visible'
             document.getElementById('img-container').removeEventListener('click', generate);
         }
+    setStorage();
     }
 }
 
@@ -152,9 +153,9 @@ function listRender(event) {
     event.preventDefault();
     // Rendering percentages
 
-    for (let i = 0; i < Product.allProducts.length; i++) {
-        Product.allProducts[i].percentages();
-    }
+    // for (let i = 0; i < Product.allProducts.length; i++) {
+    //     Product.allProducts[i].percentages();
+    // }
 
     // Results
     let parent = document.getElementById('results');
@@ -165,14 +166,35 @@ function listRender(event) {
     for (let i = 0; i < Product.allProducts.length; i++) {
         votesArr.push(Product.allProducts[i].votes);
         shownArr.push(Product.allProducts[i].shown);
-    
+
     }
+
+
     chart();
     document.getElementById('btn').removeEventListener('click', listRender);
 }
 
 
 
+
+function setStorage() {
+
+    let storage = JSON.stringify(Product.allProducts);
+    console.log(storage)
+    localStorage.setItem('Products', storage);
+}
+
+
+function getStorage() {
+
+    let products = localStorage.getItem('Products');
+    let objProducts = JSON.parse(products);
+    if (objProducts !== null) {
+        Product.allProducts = objProducts;
+    }
+    console.log(objProducts);
+
+}
 
 
 // Chart
@@ -212,3 +234,5 @@ function chart() {
     });
 
 }
+
+getStorage();
