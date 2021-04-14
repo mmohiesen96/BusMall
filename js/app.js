@@ -35,6 +35,13 @@ function Product(name, url) {
     namesArr.push(this.name);
 }
 Product.allProducts = [];
+
+// Product.prototype.percentages = function () {
+//     if (this.shown > 0) {
+//         this.percentage = (this.votes / this.shown) * 100;
+//         this.percentage = Number.parseFloat(this.percentage).toFixed(2);
+//     }
+// }
 // Initializing Products
 new Product('bag', 'img/bag.jpg');
 new Product('banana', 'img/banana.jpg');
@@ -131,10 +138,9 @@ function generate(event) {
         else {
             document.getElementById('btn').style = 'visible'
             document.getElementById('img-container').removeEventListener('click', generate);
-        
+        }
 
-    setStorage();
-
+        setStorage();
     }
 }
 
@@ -152,11 +158,6 @@ function listRender(event) {
     //     Product.allProducts[i].percentages();
     // }
 
-    for (let i = 0; i < Product.allProducts.length; i++) {
-        Product.allProducts[i].percentages();
-    }
-
-
     // Results
     let parent = document.getElementById('results');
     for (let i = 0; i < Product.allProducts.length; i++) {
@@ -166,19 +167,11 @@ function listRender(event) {
     for (let i = 0; i < Product.allProducts.length; i++) {
         votesArr.push(Product.allProducts[i].votes);
         shownArr.push(Product.allProducts[i].shown);
-
-
-    }
-
-
-=======
     
     }
     chart();
     document.getElementById('btn').removeEventListener('click', listRender);
 }
-
-
 
 
 function setStorage() {
@@ -199,7 +192,6 @@ function getStorage() {
     console.log(objProducts);
 
 }
-
 
 
 // Chart
@@ -239,6 +231,5 @@ function chart() {
     });
 
 }
-
 
 getStorage();
