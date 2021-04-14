@@ -139,7 +139,8 @@ function generate(event) {
             document.getElementById('btn').style = 'visible'
             document.getElementById('img-container').removeEventListener('click', generate);
         }
-    setStorage();
+
+        setStorage();
     }
 }
 
@@ -166,15 +167,11 @@ function listRender(event) {
     for (let i = 0; i < Product.allProducts.length; i++) {
         votesArr.push(Product.allProducts[i].votes);
         shownArr.push(Product.allProducts[i].shown);
-
+    
     }
-
-
     chart();
     document.getElementById('btn').removeEventListener('click', listRender);
 }
-
-
 
 
 function setStorage() {
